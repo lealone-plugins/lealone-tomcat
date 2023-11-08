@@ -7,6 +7,7 @@ package org.lealone.plugins.tomcat;
 
 import java.util.Map;
 
+import org.lealone.db.PluginManager;
 import org.lealone.plugins.service.http.HttpServerEngine;
 import org.lealone.server.ProtocolServer;
 
@@ -33,6 +34,17 @@ public class TomcatServerEngine extends HttpServerEngine {
 
     @Override
     public void close() {
+        stop();
+        PluginManager.deregister(this);
+    }
+
+    @Override
+    public void start() {
+        getProtocolServer().start();
+    }
+
+    @Override
+    public void stop() {
         getProtocolServer().stop();
     }
 }

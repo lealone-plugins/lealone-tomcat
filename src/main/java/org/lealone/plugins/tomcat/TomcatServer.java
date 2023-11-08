@@ -36,6 +36,8 @@ public class TomcatServer extends AsyncServer<TomcatServerConnection> implements
 
     private static final Logger logger = LoggerFactory.getLogger(TomcatServer.class);
 
+    public static final int DEFAULT_PORT = 8080;
+
     private Map<String, String> config = new HashMap<>();
     private String webRoot;
     private String jdbcUrl;
@@ -242,7 +244,7 @@ public class TomcatServer extends AsyncServer<TomcatServerConnection> implements
 
     @Override
     protected int getDefaultPort() {
-        return 9000;
+        return DEFAULT_PORT;
     }
 
     @Override
