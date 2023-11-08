@@ -3,7 +3,7 @@
  * Licensed under the Server Side Public License, v 1.
  * Initial Developer: zhh
  */
-package org.lealone.plugins.redis.test;
+package org.lealone.plugins.tomcat.test;
 
 import org.lealone.main.Lealone;
 
