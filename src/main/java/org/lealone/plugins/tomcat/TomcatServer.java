@@ -137,7 +137,8 @@ public class TomcatServer extends AsyncServer<TomcatServerConnection> implements
             if (!config.containsKey("default_schema"))
                 config.put("default_schema", "public");
         }
-
+        // 跟spring框架集成时在它那边初始化tomcat
+        boolean initTomcat = MapUtils.getBoolean(config, "init_tomcat", true);
         super.init(config);
         int schedulerCount = MapUtils.getSchedulerCount(config);
         recycledProcessors = new LinkedList[schedulerCount];
@@ -152,15 +153,18 @@ public class TomcatServer extends AsyncServer<TomcatServerConnection> implements
         contextPath = MapUtils.getString(config, "context_path", "");
         webRoot = MapUtils.getString(config, "web_root", "./web");
         File webRootDir = new File(webRoot);
-        if (!webRootDir.exists())
-            webRootDir.mkdirs();
-
+        if (initTomcat) {
+            if (!webRootDir.exists())
+                webRootDir.mkdirs();
+        }
         try {
             tomcat = new Tomcat();
             tomcat.setBaseDir(getBaseDir());
-            tomcat.setHostname(getHost());
-            tomcat.setPort(getPort());
-            ctx = tomcat.addContext(contextPath, webRootDir.getCanonicalPath());
+            if (initTomcat) {
+                tomcat.setHostname(getHost());
+                tomcat.setPort(getPort());
+                ctx = tomcat.addContext(contextPath, webRootDir.getCanonicalPath());
+            }
 
             ((StandardServer) tomcat.getServer()).setPeriodicEventDelay(0);
             tomcat.getEngine().setBackgroundProcessorDelay(0);
@@ -185,8 +189,10 @@ public class TomcatServer extends AsyncServer<TomcatServerConnection> implements
             } else {
                 router = new TomcatRouter();
             }
-            router.init(this, config);
-            tomcat.init();
+            if (initTomcat) {
+                router.init(this, config);
+                tomcat.init();
+            }
         } catch (Exception e) {
             logger.error("Failed to init tomcat", e);
         }
