@@ -5,46 +5,19 @@
  */
 package org.lealone.plugins.tomcat;
 
-import java.util.Map;
-
-import org.lealone.db.PluginManager;
 import org.lealone.plugins.service.http.HttpServerEngine;
 import org.lealone.server.ProtocolServer;
 
 public class TomcatServerEngine extends HttpServerEngine {
 
     public static final String NAME = "tomcat";
-    private TomcatServer tomcatServer; // 延迟初始化
 
     public TomcatServerEngine() {
         super(NAME);
     }
 
     @Override
-    public ProtocolServer getProtocolServer() {
-        if (tomcatServer == null)
-            tomcatServer = new TomcatServer();
-        return tomcatServer;
-    }
-
-    @Override
-    public void init(Map<String, String> config) {
-        getProtocolServer().init(config);
-    }
-
-    @Override
-    public void close() {
-        stop();
-        PluginManager.deregister(this);
-    }
-
-    @Override
-    public void start() {
-        getProtocolServer().start();
-    }
-
-    @Override
-    public void stop() {
-        getProtocolServer().stop();
+    protected ProtocolServer createProtocolServer() {
+        return new TomcatServer();
     }
 }
