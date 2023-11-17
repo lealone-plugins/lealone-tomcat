@@ -11,10 +11,10 @@ import org.apache.tomcat.util.net.NioChannel;
 import org.apache.tomcat.util.net.SocketEvent;
 import org.apache.tomcat.util.net.SocketProcessorBase;
 import org.apache.tomcat.util.net.SocketWrapperBase;
+import org.lealone.db.scheduler.Scheduler;
 import org.lealone.net.NetBuffer;
 import org.lealone.net.TransferConnection;
 import org.lealone.net.WritableChannel;
-import org.lealone.server.Scheduler;
 
 public class TomcatServerConnection extends TransferConnection {
 
@@ -30,7 +30,7 @@ public class TomcatServerConnection extends TransferConnection {
         // this.scheduler = scheduler;
         // LinkedList<NioChannel> nioChannels = httpServer.getNioChannels(scheduler.getHandlerId());
         TomcatNioEndpoint endpoint = (TomcatNioEndpoint) (httpServer.getProtocolHandler().getEndpoint());
-        endpoint.setSelector(scheduler.getNetEventLoop().getSelector());
+        endpoint.setSelector(scheduler.getSelector());
         SocketWrapperBase<NioChannel> socketWrapper = endpoint
                 .createSocketWrapper(writableChannel.getSocketChannel(), null);
         // socketWrapper.setRecycledProcessors(httpServer.getRecycledProcessors(scheduler.getHandlerId()));

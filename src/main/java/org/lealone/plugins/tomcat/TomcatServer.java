@@ -26,11 +26,11 @@ import org.lealone.common.logging.LoggerFactory;
 import org.lealone.common.util.CaseInsensitiveMap;
 import org.lealone.common.util.MapUtils;
 import org.lealone.db.ConnectionInfo;
+import org.lealone.db.scheduler.Scheduler;
 import org.lealone.net.WritableChannel;
 import org.lealone.plugins.service.http.HttpRouter;
 import org.lealone.plugins.service.http.HttpServer;
 import org.lealone.server.AsyncServer;
-import org.lealone.server.Scheduler;
 
 public class TomcatServer extends AsyncServer<TomcatServerConnection> implements HttpServer {
 
