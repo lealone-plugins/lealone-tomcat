@@ -3,16 +3,16 @@
  * Licensed under the Server Side Public License, v 1.
  * Initial Developer: zhh
  */
-package org.lealone.plugins.tomcat;
+package com.lealone.plugins.tomcat;
 
 import java.util.Map;
 
 import org.apache.catalina.servlets.DefaultServlet;
 import org.apache.tomcat.util.descriptor.web.FilterDef;
 import org.apache.tomcat.util.descriptor.web.FilterMap;
-import org.lealone.plugins.service.ServiceHandler;
-import org.lealone.plugins.service.http.HttpRouter;
-import org.lealone.plugins.service.http.HttpServer;
+import com.lealone.plugins.service.ServiceHandler;
+import com.lealone.plugins.service.http.HttpRouter;
+import com.lealone.plugins.service.http.HttpServer;
 
 public class TomcatRouter implements HttpRouter {
     @Override

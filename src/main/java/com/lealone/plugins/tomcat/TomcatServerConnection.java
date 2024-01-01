@@ -3,7 +3,7 @@
  * Licensed under the Server Side Public License, v 1.
  * Initial Developer: zhh
  */
-package org.lealone.plugins.tomcat;
+package com.lealone.plugins.tomcat;
 
 import java.nio.ByteBuffer;
 
@@ -11,10 +11,10 @@ import org.apache.tomcat.util.net.NioChannel;
 import org.apache.tomcat.util.net.SocketEvent;
 import org.apache.tomcat.util.net.SocketProcessorBase;
 import org.apache.tomcat.util.net.SocketWrapperBase;
-import org.lealone.db.scheduler.Scheduler;
-import org.lealone.net.NetBuffer;
-import org.lealone.net.TransferConnection;
-import org.lealone.net.WritableChannel;
+import com.lealone.db.scheduler.Scheduler;
+import com.lealone.net.NetBuffer;
+import com.lealone.net.TransferConnection;
+import com.lealone.net.WritableChannel;
 
 public class TomcatServerConnection extends TransferConnection {
 

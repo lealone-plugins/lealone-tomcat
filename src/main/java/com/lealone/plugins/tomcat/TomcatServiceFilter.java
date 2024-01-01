@@ -3,7 +3,7 @@
  * Licensed under the Server Side Public License, v 1.
  * Initial Developer: zhh
  */
-package org.lealone.plugins.tomcat;
+package com.lealone.plugins.tomcat;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.lealone.plugins.service.ServiceHandler;
+import com.lealone.plugins.service.ServiceHandler;
 
 public class TomcatServiceFilter extends HttpFilter {
 

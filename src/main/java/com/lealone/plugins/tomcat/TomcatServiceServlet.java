@@ -3,7 +3,7 @@
  * Licensed under the Server Side Public License, v 1.
  * Initial Developer: zhh
  */
-package org.lealone.plugins.tomcat;
+package com.lealone.plugins.tomcat;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.lealone.common.util.CaseInsensitiveMap;
-import org.lealone.plugins.service.ServiceHandler;
+import com.lealone.common.util.CaseInsensitiveMap;
+import com.lealone.plugins.service.ServiceHandler;
 
 public class TomcatServiceServlet extends HttpServlet {
 

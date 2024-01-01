@@ -3,14 +3,14 @@
  * Licensed under the Server Side Public License, v 1.
  * Initial Developer: zhh
  */
-package org.lealone.plugins.tomcat.test;
+package com.lealone.plugins.tomcat.test;
 
 import java.io.File;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.servlets.DefaultServlet;
 import org.apache.catalina.startup.Tomcat;
-import org.lealone.main.Lealone;
+import com.lealone.main.Lealone;
 
 public class TomcatServerStart {
 

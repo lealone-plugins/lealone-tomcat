@@ -3,11 +3,11 @@
  * Licensed under the Server Side Public License, v 1.
  * Initial Developer: zhh
  */
-package org.lealone.plugins.tomcat;
+package com.lealone.plugins.tomcat;
 
 import org.apache.juli.logging.Log;
-import org.lealone.common.logging.Logger;
-import org.lealone.common.logging.LoggerFactory;
+import com.lealone.common.logging.Logger;
+import com.lealone.common.logging.LoggerFactory;
 
 public class TomcatLog implements Log {
 

@@ -26,7 +26,7 @@
 
 ```sql
 create plugin tomcat
-  implement by 'org.lealone.plugins.tomcat.TomcatServerEngine' 
+  implement by 'com.lealone.plugins.tomcat.TomcatServerEngine' 
   class path 'E:\lealone\lealone-plugins\tomcat\target\lealone-tomcat-plugin-6.0.0.jar'
   parameters (port=8080,web_root='E:\lealone\lealone-plugins\tomcat\src\test\resources\web');
  
