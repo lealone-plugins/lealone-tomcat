@@ -5,12 +5,11 @@
  */
 package com.lealone.plugins.tomcat;
 
-import java.nio.ByteBuffer;
-
 import org.apache.tomcat.util.net.NioChannel;
 import org.apache.tomcat.util.net.SocketEvent;
 import org.apache.tomcat.util.net.SocketProcessorBase;
 import org.apache.tomcat.util.net.SocketWrapperBase;
+
 import com.lealone.db.scheduler.Scheduler;
 import com.lealone.net.NetBuffer;
 import com.lealone.net.TransferConnection;
@@ -40,17 +39,12 @@ public class TomcatServerConnection extends TransferConnection {
     }
 
     @Override
-    public ByteBuffer getPacketLengthByteBuffer() {
-        return null;
+    public int getPacketLengthByteCount() {
+        return -1;
     }
 
     @Override
-    public int getPacketLength() {
-        return 0;
-    }
-
-    @Override
-    public void handle(NetBuffer buffer) {
+    public void handle(NetBuffer buffer, boolean autoRecycle) {
         socketProcessor.run();
     }
 }
