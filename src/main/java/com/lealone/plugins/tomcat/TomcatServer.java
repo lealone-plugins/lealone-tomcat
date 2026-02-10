@@ -10,16 +10,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import javax.servlet.Servlet;
-
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.connector.Connector;
 import org.apache.catalina.connector.CoyoteAdapter;
 import org.apache.catalina.core.StandardServer;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.coyote.Processor;
 import org.apache.tomcat.util.net.NioChannel;
+
 import com.lealone.common.exceptions.ConfigException;
 import com.lealone.common.logging.Logger;
 import com.lealone.common.logging.LoggerFactory;
@@ -31,6 +29,8 @@ import com.lealone.net.WritableChannel;
 import com.lealone.plugins.service.http.HttpRouter;
 import com.lealone.plugins.service.http.HttpServer;
 import com.lealone.server.AsyncServer;
+
+import jakarta.servlet.Servlet;
 
 public class TomcatServer extends AsyncServer<TomcatServerConnection> implements HttpServer {
 
@@ -171,9 +171,10 @@ public class TomcatServer extends AsyncServer<TomcatServerConnection> implements
 
             protocolHandler = new TomcatHttp11NioProtocol();
             protocolHandler.setPort(getPort());
+            protocolHandler.setMaxKeepAliveRequests(100 * 10000);
             // 不禁用时如果js文件大了会出现net::err_content_length_mismatch 200
             protocolHandler.setUseSendfile(false);
-            Connector connector = new Connector(protocolHandler);
+            TomcatConnector connector = new TomcatConnector(protocolHandler);
             CoyoteAdapter adapter = new CoyoteAdapter(connector);
             protocolHandler.setAdapter(adapter);
             tomcat.setConnector(connector);
@@ -246,6 +247,7 @@ public class TomcatServer extends AsyncServer<TomcatServerConnection> implements
             }
             tomcat = null;
         }
+        // executorService.shutdown();
     }
 
     @Override
@@ -264,5 +266,13 @@ public class TomcatServer extends AsyncServer<TomcatServerConnection> implements
 
     public void addServletMappingDecoded(String pattern, String name) {
         ctx.addServletMappingDecoded(pattern, name);
+    }
+
+    // private ExecutorService executorService = Executors
+    // .newThreadPerTaskExecutor(Thread.ofVirtual().name("lealone-http-vt-", 1).factory());
+
+    public void submit(Runnable task) {
+        // executorService.submit(task);
+        task.run();
     }
 }

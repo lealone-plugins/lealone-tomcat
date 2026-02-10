@@ -5,14 +5,15 @@
  */
 package com.lealone.plugins.tomcat;
 
-import org.apache.coyote.http11.AbstractHttp11JsseProtocol;
+import org.apache.coyote.Processor;
+import org.apache.coyote.http11.AbstractHttp11Protocol;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
-import org.apache.tomcat.util.net.AbstractJsseEndpoint;
+import org.apache.tomcat.util.net.AbstractEndpoint;
 import org.apache.tomcat.util.net.NioChannel;
 import org.apache.tomcat.util.net.NioEndpoint;
 
-public class TomcatHttp11NioProtocol extends AbstractHttp11JsseProtocol<NioChannel> {
+public class TomcatHttp11NioProtocol extends AbstractHttp11Protocol<NioChannel> {
 
     private static final Log log = LogFactory.getLog(TomcatHttp11NioProtocol.class);
 
@@ -25,7 +26,7 @@ public class TomcatHttp11NioProtocol extends AbstractHttp11JsseProtocol<NioChann
     }
 
     @Override
-    public AbstractJsseEndpoint<NioChannel, ?> getEndpoint() {
+    public AbstractEndpoint<NioChannel, ?> getEndpoint() {
         // Over-ridden to add cast
         return super.getEndpoint();
     }
@@ -33,6 +34,11 @@ public class TomcatHttp11NioProtocol extends AbstractHttp11JsseProtocol<NioChann
     @Override
     protected Log getLog() {
         return log;
+    }
+
+    @Override
+    protected Processor createProcessor() {
+        return new TomcatHttp11Processor(this, adapter);
     }
 
     // -------------------- Pool setup --------------------

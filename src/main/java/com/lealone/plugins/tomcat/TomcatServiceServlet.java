@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.lealone.common.util.CaseInsensitiveMap;
 import com.lealone.plugins.service.ServiceHandler;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class TomcatServiceServlet extends HttpServlet {
 
@@ -45,7 +45,7 @@ public class TomcatServiceServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = request.getServletPath();
+        String url = request.getRequestURI();
         String[] a = url.split("/");
         if (a.length < 4) {
             response.sendError(400, "service " + url + " not found");
