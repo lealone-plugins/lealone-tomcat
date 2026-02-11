@@ -5,6 +5,7 @@
  */
 package com.lealone.plugins.tomcat;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.lealone.common.util.CaseInsensitiveMap;
+import com.lealone.plugins.orm.json.JsonObject;
 import com.lealone.plugins.service.ServiceHandler;
 
 import jakarta.servlet.ServletException;
@@ -66,16 +68,34 @@ public class TomcatServiceServlet extends HttpServlet {
     protected static CaseInsensitiveMap<Object> getMethodArgs(HttpServletRequest request,
             boolean parseJson) {
         CaseInsensitiveMap<Object> methodArgs = new CaseInsensitiveMap<>();
-
-        for (Entry<String, String[]> e : request.getParameterMap().entrySet()) {
-            String[] values = e.getValue();
-            String key = e.getKey();
-            for (int i = 0, len = values.length; i < len; i++) {
-                addMethodArgs(methodArgs, key, values[i]);
+        // 当请求头包含content-type: application/json时，客户端发送的是一个json类型的数据
+        if (request.getMethod().equalsIgnoreCase("post")) {
+            try {
+                BufferedReader reader = new BufferedReader(
+                        new java.io.InputStreamReader(request.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                reader.close();
+                String jsonStr = sb.toString();
+                String type = request.getContentType();
+                if (type.startsWith("application/json")) {
+                    JsonObject obj = new JsonObject(jsonStr);
+                    methodArgs.putAll(obj.getMap());
+                }
+            } catch (IOException e) {
+            }
+        } else {
+            for (Entry<String, String[]> e : request.getParameterMap().entrySet()) {
+                String[] values = e.getValue();
+                String key = e.getKey();
+                for (int i = 0, len = values.length; i < len; i++) {
+                    addMethodArgs(methodArgs, key, values[i]);
+                }
             }
         }
-
-        // TODO 当请求头包含content-type: application/json时，客户端发送的是一个json类型的数据
         return methodArgs;
     }
 
