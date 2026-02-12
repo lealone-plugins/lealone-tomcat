@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.lealone.common.util.CaseInsensitiveMap;
@@ -67,9 +68,11 @@ public class TomcatServiceServlet extends HttpServlet {
 
     protected static CaseInsensitiveMap<Object> getMethodArgs(HttpServletRequest request,
             boolean parseJson) {
+        Map<String, String[]> map = request.getParameterMap();
         CaseInsensitiveMap<Object> methodArgs = new CaseInsensitiveMap<>();
         // 当请求头包含content-type: application/json时，客户端发送的是一个json类型的数据
-        if (request.getMethod().equalsIgnoreCase("post")) {
+        // map不为空时表示上传文件后不需要再解析post请求体
+        if (map.isEmpty() && request.getMethod().equalsIgnoreCase("post")) {
             try {
                 BufferedReader reader = new BufferedReader(
                         new java.io.InputStreamReader(request.getInputStream()));
